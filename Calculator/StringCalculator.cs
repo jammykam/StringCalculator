@@ -46,7 +46,7 @@ namespace Calculator
         {
             if (input.StartsWith("//"))
             {
-                const string delimiterPattern = "//(.)\n";
+                const string delimiterPattern = "//(.+)\n";
 
                 var regex = new Regex(delimiterPattern);
                 var match = regex.Match(input);
