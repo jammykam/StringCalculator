@@ -21,15 +21,18 @@ namespace Calculator
                 return 0;
             }
             var numbers = Tokenize(input);
+            ValidateInput(numbers);
+
             return numbers.Sum(i => i);
         }
 
-        private static IEnumerable<int> Tokenize(string input)
+        private static List<int> Tokenize(string input)
         {
             input = ReplaceUserSpecifiedDelimiterWithComma(input);
             input = ReplaceNewLineDelimiterWithComma(input);
             return input.Split(DefaultDelimiter.ToCharArray())
-                        .Select(int.Parse);
+                        .Select(int.Parse)
+                        .ToList();
         }
 
         private static string ReplaceNewLineDelimiterWithComma(string input)
@@ -55,6 +58,15 @@ namespace Calculator
                 }
             }
             return input;
+        }
+
+        private static void ValidateInput(IEnumerable<int> args)
+        {
+            var negativeNumbers = args.Where(i => i < 0).ToList();
+            if (negativeNumbers.Any())
+            {
+                throw new ArgumentException("Negative numbers are not allowed: " + String.Join(DefaultDelimiter, negativeNumbers));
+            }
         }
 
     }

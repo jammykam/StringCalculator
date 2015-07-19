@@ -10,9 +10,15 @@ namespace Calculator.Tests
     [TestFixture]
     public class StringCalculatorTests
     {
+
+        private IStringCalculator GetStringCalculator()
+        {
+            return new StringCalculator();
+        }
+
         private void ArrangeActAndAssert(string numbers, int expected)
         {
-            IStringCalculator stringCalculator = new StringCalculator();
+            IStringCalculator stringCalculator = GetStringCalculator();
             int result = stringCalculator.Add(numbers);
             Assert.AreEqual(expected, result);
         }
@@ -58,6 +64,18 @@ namespace Calculator.Tests
         public void Add_UserSpecifiedDelimitedNumbers_ReturnsSum(string numbers, int expected)
         {
             ArrangeActAndAssert(numbers, expected);
+        }
+
+        [TestCase("-1",      "Negative numbers are not allowed: -1")]
+        [TestCase("0,-1",    "Negative numbers are not allowed: -1")]
+        [TestCase("0,-4",    "Negative numbers are not allowed: -4")]
+        [TestCase("0,-1,-4", "Negative numbers are not allowed: -1,-4")]
+        public void Add_NegativeNumber_ThrowsException(string numbers, string negativeNumbersAreNotAllowed)
+        {
+            IStringCalculator stringCalculator = GetStringCalculator();
+            TestDelegate testDelegate = () => stringCalculator.Add(numbers);
+            var ex = Assert.Throws<ArgumentException>(testDelegate);
+            Assert.AreEqual(negativeNumbersAreNotAllowed, ex.Message);
         }
     }
 }
