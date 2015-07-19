@@ -14,8 +14,13 @@ namespace Calculator
             {
                 return 0;
             }
+            var numbers = Tokenize(input);
+            return numbers.Sum(i => i);
+        }
 
-            return int.Parse(input);
+        private static IEnumerable<int> Tokenize(string input)
+        {
+            return input.Split(',').Select(int.Parse);
         }
     }
 }

@@ -31,5 +31,14 @@ namespace Calculator.Tests
             int result = stringCalculator.Add(numbers);
             Assert.AreEqual(expected, result);
         }
+
+        [TestCase("0,0", 0)]
+        [TestCase("1,1", 2)]
+        public void Add_TwoCommaDelimitedNumbers_ReturnsSum(string numbers, int expected)
+        {
+            IStringCalculator stringCalculator = GetStringCalculator();
+            int result = stringCalculator.Add(numbers);
+            Assert.AreEqual(expected, result);
+        }
     }
 }
