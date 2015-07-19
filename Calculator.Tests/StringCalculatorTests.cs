@@ -40,5 +40,15 @@ namespace Calculator.Tests
             int result = stringCalculator.Add(numbers);
             Assert.AreEqual(expected, result);
         }
+
+        [TestCase("0,0,1", 1)]
+        [TestCase("1,2,3", 6)]
+        [TestCase("1,3,5,7", 16)]
+        public void Add_MultipleCommaDelimitedNumbers_ReturnsSum(string numbers, int expected)
+        {
+            IStringCalculator stringCalculator = GetStringCalculator();
+            int result = stringCalculator.Add(numbers);
+            Assert.AreEqual(expected, result);
+        }
     }
 }
