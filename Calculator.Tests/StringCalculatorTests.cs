@@ -44,5 +44,12 @@ namespace Calculator.Tests
         {
             ArrangeActAndAssert(numbers, expected);
         }
+
+        [TestCase("1\n2,3", 6)]
+        [TestCase("1\n3,5", 9)]
+        public void Add_NewLineDelimitedNumbers_ReturnsSum(string numbers, int expected)
+        {
+            ArrangeActAndAssert(numbers, expected);
+        }
     }
 }

@@ -8,6 +8,11 @@ namespace Calculator
 {
     public class StringCalculator : IStringCalculator
     {
+        private static string DefaultDelimiter
+        {
+            get { return ","; }
+        }
+
         public int Add(string input)
         {
             if (String.IsNullOrEmpty(input))
@@ -20,7 +25,9 @@ namespace Calculator
 
         private static IEnumerable<int> Tokenize(string input)
         {
-            return input.Split(',').Select(int.Parse);
+            input = input.Replace("\n", DefaultDelimiter);
+            return input.Split(DefaultDelimiter.ToCharArray())
+                        .Select(int.Parse);
         }
     }
 }
