@@ -10,7 +10,12 @@ namespace Calculator
     {
         public int Add(string input)
         {
-            return 0;
+            if (String.IsNullOrEmpty(input))
+            {
+                return 0;
+            }
+
+            return int.Parse(input);
         }
     }
 }

@@ -10,12 +10,26 @@ namespace Calculator.Tests
     [TestFixture]
     public class StringCalculatorTests
     {
+        private IStringCalculator GetStringCalculator()
+        {
+            return new StringCalculator();
+        } 
+
         [Test]
         public void Add_EmptyString_ReturnsZero()
         {
-            IStringCalculator stringCalculator = new StringCalculator();
+            IStringCalculator stringCalculator = GetStringCalculator();
             int result = stringCalculator.Add("");
             Assert.AreEqual(0, result);
+        }
+
+        [TestCase("0", 0)]
+        [TestCase("1", 1)]
+        public void Add_SingleNumber_ReturnsNumber(string numbers, int expected)
+        {
+            IStringCalculator stringCalculator = GetStringCalculator();
+            int result = stringCalculator.Add(numbers);
+            Assert.AreEqual(expected, result);
         }
     }
 }
