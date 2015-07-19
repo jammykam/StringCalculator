@@ -10,35 +10,31 @@ namespace Calculator.Tests
     [TestFixture]
     public class StringCalculatorTests
     {
-        private IStringCalculator GetStringCalculator()
+        private void ArrangeActAndAssert(string numbers, int expected)
         {
-            return new StringCalculator();
-        } 
+            IStringCalculator stringCalculator = new StringCalculator();
+            int result = stringCalculator.Add(numbers);
+            Assert.AreEqual(expected, result);
+        }
 
         [Test]
         public void Add_EmptyString_ReturnsZero()
         {
-            IStringCalculator stringCalculator = GetStringCalculator();
-            int result = stringCalculator.Add("");
-            Assert.AreEqual(0, result);
+            ArrangeActAndAssert("", 0);
         }
 
         [TestCase("0", 0)]
         [TestCase("1", 1)]
         public void Add_SingleNumber_ReturnsNumber(string numbers, int expected)
         {
-            IStringCalculator stringCalculator = GetStringCalculator();
-            int result = stringCalculator.Add(numbers);
-            Assert.AreEqual(expected, result);
+            ArrangeActAndAssert(numbers, expected);
         }
 
         [TestCase("0,0", 0)]
         [TestCase("1,1", 2)]
         public void Add_TwoCommaDelimitedNumbers_ReturnsSum(string numbers, int expected)
         {
-            IStringCalculator stringCalculator = GetStringCalculator();
-            int result = stringCalculator.Add(numbers);
-            Assert.AreEqual(expected, result);
+            ArrangeActAndAssert(numbers, expected);
         }
 
         [TestCase("0,0,1", 1)]
@@ -46,9 +42,7 @@ namespace Calculator.Tests
         [TestCase("1,3,5,7", 16)]
         public void Add_MultipleCommaDelimitedNumbers_ReturnsSum(string numbers, int expected)
         {
-            IStringCalculator stringCalculator = GetStringCalculator();
-            int result = stringCalculator.Add(numbers);
-            Assert.AreEqual(expected, result);
+            ArrangeActAndAssert(numbers, expected);
         }
     }
 }
