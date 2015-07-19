@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Calculator
@@ -25,9 +26,36 @@ namespace Calculator
 
         private static IEnumerable<int> Tokenize(string input)
         {
-            input = input.Replace("\n", DefaultDelimiter);
+            input = ReplaceUserSpecifiedDelimiterWithComma(input);
+            input = ReplaceNewLineDelimiterWithComma(input);
             return input.Split(DefaultDelimiter.ToCharArray())
                         .Select(int.Parse);
         }
+
+        private static string ReplaceNewLineDelimiterWithComma(string input)
+        {
+            input = input.Replace("\n", DefaultDelimiter);
+            return input;
+        }
+
+        private static string ReplaceUserSpecifiedDelimiterWithComma(string input)
+        {
+            if (input.StartsWith("//"))
+            {
+                const string delimiterPattern = "//(.)\n";
+
+                var regex = new Regex(delimiterPattern);
+                var match = regex.Match(input);
+
+                if (match.Success)
+                {
+                    var delimiter = match.Groups[1].Value;
+                    input = regex.Replace(input, "");
+                    return input.Replace(delimiter, DefaultDelimiter);
+                }
+            }
+            return input;
+        }
+
     }
 }
