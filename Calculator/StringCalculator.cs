@@ -53,7 +53,7 @@ namespace Calculator
 
                 if (match.Success)
                 {
-                    var delimiter = match.Groups[1].Value;
+                    var delimiter = match.Groups[1].Value.Replace("[","").Replace("]","");
                     input = regex.Replace(input, "");
                     return input.Replace(delimiter, DefaultDelimiter);
                 }

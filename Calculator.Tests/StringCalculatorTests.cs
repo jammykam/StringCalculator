@@ -92,5 +92,12 @@ namespace Calculator.Tests
         {
             ArrangeActAndAssert(numbers, expected);
         }
+
+        [TestCase("//[**]\n1**2**3", 6)]
+        [TestCase("//[||]\n1||2||3", 6)]
+        public void Add_UserSpecifiedDelimiterOfAnyLengthEnclosedInBracketsNumbers_ReturnsSum(string numbers, int expected)
+        {
+            ArrangeActAndAssert(numbers, expected);
+        }
     }
 }
