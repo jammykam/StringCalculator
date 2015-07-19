@@ -22,6 +22,7 @@ namespace Calculator
             }
             var numbers = Tokenize(input);
             ValidateInput(numbers);
+            numbers = RemoveInvalidNumbers(numbers);
 
             return numbers.Sum(i => i);
         }
@@ -69,5 +70,10 @@ namespace Calculator
             }
         }
 
+        private List<int> RemoveInvalidNumbers(IEnumerable<int> numbers)
+        {
+            return numbers.Where(x => x < 1000).ToList();
+            ;
+        }
     }
 }

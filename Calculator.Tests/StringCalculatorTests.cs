@@ -77,5 +77,13 @@ namespace Calculator.Tests
             var ex = Assert.Throws<ArgumentException>(testDelegate);
             Assert.AreEqual(negativeNumbersAreNotAllowed, ex.Message);
         }
+
+        [TestCase("2,1000", 2)]
+        [TestCase("2,1000,1003", 2)]
+        [TestCase("2,3,1000,1003", 5)]
+        public void Add_LargeNumbersShouldBeIgnore_ReturnsSumWithoutLargeNumber(string numbers, int expected)
+        {
+            ArrangeActAndAssert(numbers, expected);
+        }
     }
 }
