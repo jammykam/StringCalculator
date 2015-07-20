@@ -46,19 +46,62 @@ namespace Calculator
         {
             if (input.StartsWith("//"))
             {
-                const string delimiterPattern = "//(.+)\n";
+                var delimiters = ExtractDelimiters(ref input);
 
-                var regex = new Regex(delimiterPattern);
-                var match = regex.Match(input);
-
-                if (match.Success)
+                if (delimiters != null)
                 {
-                    var delimiter = match.Groups[1].Value.Replace("[","").Replace("]","");
-                    input = regex.Replace(input, "");
-                    return input.Replace(delimiter, DefaultDelimiter);
+                    foreach (var delimiter in delimiters)
+                    {
+                        input = input.Replace(delimiter, DefaultDelimiter);
+                    }
+
+                    return input;
                 }
             }
             return input;
+        }
+
+        private static List<string> ExtractDelimiters(ref string input)
+        {
+            var delimitersRangeRegex = new Regex("//(.+)\n");
+
+            Match rangeMatch = delimitersRangeRegex.Match(input);
+            
+            if (!rangeMatch.Success)
+            {
+                return null;
+            }
+
+            input = delimitersRangeRegex.Replace(input, "");
+
+            string delimitersString = rangeMatch.Groups[1].Value;
+            return GetDelimitersCollection(delimitersString);
+        }
+
+        private static List<string> GetDelimitersCollection(string delimitersString)
+        {
+            var delimiterCollectionRegex = new Regex(@"\[(.+?)]"); ;
+            var delimiters = new List<string>();
+
+            MatchCollection mc = delimiterCollectionRegex.Matches(delimitersString);
+
+            if (mc.Count > 0)
+            {
+                foreach (Match m in mc)
+                {
+                    for (int i = 0; i < m.Groups.Count; i++)
+                    {
+                        delimiters.Add(m.Groups[i].Value);
+                    }
+                }
+            }
+            else
+            {
+                delimiters.Add(delimitersString);
+            }
+
+            return delimiters;
+            
         }
 
         private static void ValidateInput(IEnumerable<int> args)
